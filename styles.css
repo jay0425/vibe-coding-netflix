@@ -3,8 +3,8 @@
   --bg-elev: #181818;
   --text: #ffffff;
   --muted: #b3b3b3;
-  --accent: #00ff15d5;
-  --accent-light: #0cbf1b;
+  --accent: #f2ff00;
+  --accent-light: #f2ff00c9;
   --card-radius: 8px;
   --gap: 16px;
 }
@@ -89,6 +89,10 @@ main {
 
 section {
   cursor: pointer;
+}
+
+section > h2 {
+  color: var(--accent);
 }
 
 .container {
@@ -267,10 +271,10 @@ section {
 .modal__genre-badge {
   padding: 4px 8px;
   border-radius: 999px;
-  background: rgba(12, 191, 27, 0.15);
-  color: var(--accent-light);
+  background: rgba(255, 214, 10, 0.15);
+  color: #ffd60a;
   font-size: 12px;
-  border: 1px solid rgba(12, 191, 27, 0.35);
+  border: 1px solid rgba(255, 214, 10, 0.35);
 }
 
 .card {
