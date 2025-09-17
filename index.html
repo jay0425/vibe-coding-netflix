@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Netflix - Now Playing</title>
+    <link rel="preconnect" href="https://image.tmdb.org" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="header">
+      <nav class="header__nav">
+        <div class="header__brand">My Netflix</div>
+        <span class="nav__item active">현재 상영작</span>
+        <form id="search-form" class="search" role="search" aria-label="영화 검색">
+          <input
+            id="search-input"
+            class="search__input"
+            type="search"
+            placeholder="영화 제목 검색..."
+            aria-label="영화 제목 검색"
+            autocomplete="off"
+          />
+          <button class="search__btn" type="submit" aria-label="검색">🔍</button>
+        </form>
+      </nav>
+    </header>
+
+    <main class="container">
+      <h2 id="section-title" class="section-title">현재 상영 중</h2>
+      <div class="carousel" aria-label="현재 상영작 캐러셀">
+        <button id="btn-prev" class="carousel__arrow" aria-label="이전">◀</button>
+        <div id="carousel-viewport" class="carousel__viewport">
+          <section id="now-playing" class="track" aria-live="polite"></section>
+        </div>
+        <button id="btn-next" class="carousel__arrow" aria-label="다음">▶</button>
+      </div>
+
+      <h2 class="section-title">평단의 찬사를 받은 영화</h2>
+      <div class="carousel" aria-label="인기 영화 캐러셀">
+        <button id="btn-prev-pop" class="carousel__arrow" aria-label="이전">◀</button>
+        <div id="popular-viewport" class="carousel__viewport">
+          <section id="popular" class="track" aria-live="polite"></section>
+        </div>
+        <button id="btn-next-pop" class="carousel__arrow" aria-label="다음">▶</button>
+      </div>
+
+      <h2 class="section-title">보고 또 봐도 좋은 명작</h2>
+      <div class="carousel" aria-label="랭킹 영화 캐러셀">
+        <button id="btn-prev-top" class="carousel__arrow" aria-label="이전">◀</button>
+        <div id="top-rated-viewport" class="carousel__viewport">
+          <section id="top-rated" class="track" aria-live="polite"></section>
+        </div>
+        <button id="btn-next-top" class="carousel__arrow" aria-label="다음">▶</button>
+      </div>
+
+      <h2 class="section-title">개봉 예정작</h2>
+      <div class="carousel" aria-label="개봉 예정 캐러셀">
+        <button id="btn-prev-up" class="carousel__arrow" aria-label="이전">◀</button>
+        <div id="upcoming-viewport" class="carousel__viewport">
+          <section id="upcoming" class="track" aria-live="polite"></section>
+        </div>
+        <button id="btn-next-up" class="carousel__arrow" aria-label="다음">▶</button>
+      </div>
+    </main>
+
+    <template id="movie-card-template">
+      <article class="card" tabindex="0">
+        <div class="poster-wrap">
+          <img class="poster" alt="" loading="lazy" />
+        </div>
+        <h3 class="title"></h3>
+      </article>
+    </template>
+
+    <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
+
+    <!-- Movie Detail Modal -->
+    <div id="movie-modal" class="modal hidden" role="dialog" aria-labelledby="modal-title" aria-modal="true">
+      <div class="modal__content">
+        <div class="modal__header">
+          <button class="modal__close" aria-label="닫기">×</button>
+          <h2 id="modal-title" class="modal__title"></h2>
+          <div class="modal__meta">
+            <span id="modal-release-date"></span>
+            <span id="modal-rating"></span>
+          </div>
+        </div>
+        <div class="modal__body">
+          <p id="modal-overview" class="modal__overview"></p>
+          <div id="modal-cast" class="modal__cast">
+            <h3 class="modal__cast-title">출연진</h3>
+            <div id="modal-cast-list" class="modal__cast-list"></div>
+          </div>
+          <div id="modal-video" class="modal__video">
+            <h3 class="modal__video-title">예고편</h3>
+            <div id="modal-video-container"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script defer src="./app.js"></script>
+  </body>
+</html>
