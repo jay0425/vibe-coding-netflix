@@ -35,6 +35,8 @@ const modalTitle = document.getElementById('modal-title');
 const modalReleaseDate = document.getElementById('modal-release-date');
 const modalRating = document.getElementById('modal-rating');
 const modalOverview = document.getElementById('modal-overview');
+const modalGenres = document.getElementById('modal-genres');
+const modalAdultBadge = document.getElementById('modal-adult-badge');
 const modalCastList = document.getElementById('modal-cast-list');
 const modalVideoContainer = document.getElementById('modal-video-container');
 const modalClose = document.querySelector('.modal__close');
@@ -277,6 +279,7 @@ async function openMovieModal(movieId) {
     modalReleaseDate.textContent = '';
     modalRating.textContent = '';
     modalOverview.textContent = '';
+    modalGenres.innerHTML = '';
     modalCastList.innerHTML = '';
     modalVideoContainer.innerHTML = '';
 
@@ -291,16 +294,25 @@ async function openMovieModal(movieId) {
     modalRating.textContent = details.vote_average ? `평점: ${details.vote_average.toFixed(1)}/10` : '';
     modalOverview.textContent = details.overview || '줄거리 정보가 없습니다.';
 
+    // 청불 배지 토글
+    if (details.adult) {
+      modalAdultBadge?.classList.remove('hidden');
+    } else {
+      modalAdultBadge?.classList.add('hidden');
+    }
+
+    // 장르 뱃지 렌더
+    if (Array.isArray(details.genres) && details.genres.length > 0) {
+      modalGenres.innerHTML = details.genres.map((g) => `<span class="modal__genre-badge">${g.name}</span>`).join('');
+    } else {
+      modalGenres.innerHTML = '';
+    }
+
+    // 출연진
     if (credits.cast && credits.cast.length > 0) {
       const castHtml = credits.cast
-        .slice(0, 10)
-        .map(
-          (actor) => `
-        <div class="modal__cast-item">
-          <div class="modal__cast-name">${actor.name}</div>
-        </div>
-      `
-        )
+        .slice(0, 20)
+        .map((actor) => `<span class="modal__cast-badge">${actor.name}</span>`)
         .join('');
       modalCastList.innerHTML = castHtml;
     } else {
@@ -311,7 +323,7 @@ async function openMovieModal(movieId) {
       const trailer = videos.results.find((video) => video.type === 'Trailer' && video.site === 'YouTube');
       if (trailer) {
         modalVideoContainer.innerHTML = `
-          <iframe 
+          <iframe
             class="modal__video-iframe"
             src="https://www.youtube.com/embed/${trailer.key}"
             allowfullscreen>

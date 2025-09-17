@@ -27,10 +27,7 @@ body {
   position: sticky;
   top: 0;
   z-index: 10;
-  display: flex;
   width: 100%;
-  align-items: center;
-  justify-content: space-between;
   padding: 12px 24px;
   background: linear-gradient(180deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0) 100%);
 }
@@ -39,8 +36,14 @@ body {
   font-size: 20px;
   color: var(--accent);
 }
-.header__nav .nav__item {
+.header__nav {
   display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding-inline: 100px;
+}
+.header__nav .nav__item {
   color: var(--muted);
   margin-left: 16px;
 }
@@ -75,6 +78,12 @@ body {
   background: var(--accent);
   color: #fff;
   cursor: pointer;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  gap: 100px;
 }
 
 .container {
@@ -205,14 +214,21 @@ body {
 }
 .modal__cast-list {
   display: flex;
-  gap: 12px;
-  overflow-x: auto;
+  flex-wrap: wrap;
+  gap: 8px;
   padding-bottom: 8px;
 }
+.modal__cast-badge {
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  font-size: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+/* 기존 아이템 규칙이 있더라도 뱃지를 우선 사용 */
 .modal__cast-item {
-  flex: 0 0 auto;
-  text-align: center;
-  min-width: 80px;
+  min-width: 0;
 }
 .modal__cast-name {
   font-size: 12px;
@@ -220,6 +236,8 @@ body {
 }
 .modal__video {
   margin: 0 0 20px;
+  display: flex;
+  justify-content: center;
 }
 .modal__video-title {
   margin: 0 0 12px;
@@ -228,9 +246,26 @@ body {
 }
 .modal__video-iframe {
   width: 100%;
+  width: 640px;
   aspect-ratio: 16/9;
   border: none;
   border-radius: 8px;
+  display: block;
+  margin: 0 auto;
+}
+.modal__genres {
+  margin: 0 0 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.modal__genre-badge {
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: rgba(255, 214, 10, 0.15);
+  color: #ffd60a;
+  font-size: 12px;
+  border: 1px solid rgba(255, 214, 10, 0.35);
 }
 
 .card {
@@ -304,6 +339,21 @@ body {
 }
 .hidden {
   display: none;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 12px;
+  line-height: 1;
+}
+.badge--adult {
+  background: rgba(229, 9, 20, 0.18);
+  color: #fff;
+  border: 1px solid rgba(229, 9, 20, 0.45);
 }
 
 @media (min-width: 1600px) {
