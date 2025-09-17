@@ -13,6 +13,8 @@ const gridElement = document.getElementById('now-playing');
 const popularElement = document.getElementById('popular');
 const topRatedElement = document.getElementById('top-rated');
 const upcomingElement = document.getElementById('upcoming');
+const searchResultsElement = document.getElementById('search-results');
+const carouselsWrapper = document.getElementById('carousels');
 const template = document.getElementById('movie-card-template');
 const toast = document.getElementById('toast');
 const searchForm = document.getElementById('search-form');
@@ -71,10 +73,11 @@ function createSkeletonCardsFor(container, count) {
 }
 
 function createMovieCard(movie) {
-  const { title, original_title, poster_path, id } = movie;
+  const { title, original_title, poster_path, id, adult } = movie;
   const node = template.content.firstElementChild.cloneNode(true);
   const img = node.querySelector('.poster');
   const heading = node.querySelector('.title');
+  const cardAdultBadge = node.querySelector('.card__badge');
 
   heading.textContent = title || original_title || '제목 없음';
 
@@ -84,6 +87,12 @@ function createMovieCard(movie) {
   } else {
     img.alt = `${heading.textContent} 포스터 이미지 없음`;
     img.style.background = '#333';
+  }
+
+  if (adult) {
+    cardAdultBadge?.classList.remove('hidden');
+  } else {
+    cardAdultBadge?.classList.add('hidden');
   }
 
   node.addEventListener('click', () => openMovieModal(id));
@@ -103,6 +112,22 @@ function renderInto(container, viewportEl, movies) {
   movies.forEach((m) => fragment.appendChild(createMovieCard(m)));
   container.appendChild(fragment);
   viewportEl?.scrollTo({ left: 0, behavior: 'auto' });
+}
+
+function renderSearchResults(movies) {
+  clearChildren(searchResultsElement);
+  const fragment = document.createDocumentFragment();
+  movies.forEach((m) => fragment.appendChild(createMovieCard(m)));
+  searchResultsElement.appendChild(fragment);
+}
+
+function enterSearchMode() {
+  carouselsWrapper?.classList.add('hidden');
+  searchResultsElement?.classList.remove('hidden');
+}
+function exitSearchMode() {
+  carouselsWrapper?.classList.remove('hidden');
+  searchResultsElement?.classList.add('hidden');
 }
 
 async function fetchNowPlaying(page = 1) {
@@ -201,11 +226,14 @@ function handleSearchSubmit(e) {
 async function performSearch(query) {
   try {
     sectionTitle.textContent = `"${query}" 검색 결과`;
-    createSkeletonCardsFor(gridElement, 12);
+    enterSearchMode();
+    clearChildren(searchResultsElement);
+    // 스켈레톤 몇 개 표시
+    createSkeletonCardsFor(searchResultsElement, 12);
     const data = await searchMovies(query, 1);
     const movies = Array.isArray(data.results) ? data.results : [];
     if (movies.length === 0) showToast('검색 결과가 없습니다.');
-    renderInto(gridElement, viewport, movies);
+    renderSearchResults(movies);
   } catch (err) {
     console.error(err);
     showToast('검색에 실패했어요. 잠시 후 다시 시도해 주세요.');
@@ -236,6 +264,7 @@ bindCarouselButtons(btnPrevUp, btnNextUp, viewportUpcoming, upcomingElement);
 
 async function init() {
   try {
+    exitSearchMode();
     // 현재 상영작
     createSkeletonCardsFor(gridElement, 12);
     const now = await fetchNowPlaying(1);

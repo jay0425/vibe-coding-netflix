@@ -10,7 +10,7 @@
   <body>
     <header class="header">
       <nav class="header__nav">
-        <div class="header__brand">Jaeflix</div>
+        <a href="/" class="header__brand">Jaeflix 🍃</a>
         <form id="search-form" class="search" role="search" aria-label="영화 검색">
           <input
             id="search-input"
@@ -26,8 +26,8 @@
     </header>
 
     <main class="container">
-      <section>
-        <h2 id="section-title" class="section-title">현재 절찬 상영 중</h2>
+      <h2 id="section-title" class="section-title">현재 절찬리 상영 중</h2>
+      <div id="carousels">
         <div class="carousel" aria-label="현재 상영작 캐러셀">
           <button id="btn-prev" class="carousel__arrow" aria-label="이전">◀</button>
           <div id="carousel-viewport" class="carousel__viewport">
@@ -35,9 +35,7 @@
           </div>
           <button id="btn-next" class="carousel__arrow" aria-label="다음">▶</button>
         </div>
-      </section>
 
-      <section>
         <h2 class="section-title">평단의 찬사를 받은 영화</h2>
         <div class="carousel" aria-label="인기 영화 캐러셀">
           <button id="btn-prev-pop" class="carousel__arrow" aria-label="이전">◀</button>
@@ -46,9 +44,7 @@
           </div>
           <button id="btn-next-pop" class="carousel__arrow" aria-label="다음">▶</button>
         </div>
-      </section>
 
-      <section>
         <h2 class="section-title">보고 또 봐도 좋은 명작</h2>
         <div class="carousel" aria-label="랭킹 영화 캐러셀">
           <button id="btn-prev-top" class="carousel__arrow" aria-label="이전">◀</button>
@@ -57,9 +53,8 @@
           </div>
           <button id="btn-next-top" class="carousel__arrow" aria-label="다음">▶</button>
         </div>
-      </section>
-      <section>
-        <h2 class="section-title">다가오는 기대작</h2>
+
+        <h2 class="section-title">개봉 예정작</h2>
         <div class="carousel" aria-label="개봉 예정 캐러셀">
           <button id="btn-prev-up" class="carousel__arrow" aria-label="이전">◀</button>
           <div id="upcoming-viewport" class="carousel__viewport">
@@ -67,12 +62,16 @@
           </div>
           <button id="btn-next-up" class="carousel__arrow" aria-label="다음">▶</button>
         </div>
-      </section>
+      </div>
+
+      <!-- 검색 결과 전용 컨테이너 (캐러셀 없이 나열) -->
+      <article id="search-results" class="search-grid hidden" aria-live="polite"></article>
     </main>
 
     <template id="movie-card-template">
       <article class="card" tabindex="0">
         <div class="poster-wrap">
+          <span class="badge badge--adult card__badge hidden">청불</span>
           <img class="poster" alt="" loading="lazy" />
         </div>
         <h3 class="title"></h3>
